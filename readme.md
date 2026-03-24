@@ -6,3 +6,12 @@ Link del video del funcionamiento: //Pending
 
 Verificamos la correcta compilacion del proyecto 
 ![alt text](docs/image.png)
+
+Construccion de la imagen docker
+![alt text](docs/image1.png)
+
+Corremos la instancia del contenedor
+![alt text](docs/image4.png)
+![alt text](docs/image-1.png)
+![alt text](docs/image-2.png)
+
