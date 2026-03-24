@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Conjetura de Collatz</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .card {
+            background: rgba(255,255,255,0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 16px;
+            padding: 40px;
+            max-width: 700px;
+            width: 100%;
+            color: #e0e0e0;
+        }
+
+        h1 {
+            font-size: 2rem;
+            color: #e94560;
+            margin-bottom: 8px;
+        }
+
+        .subtitle {
+            font-size: 0.95rem;
+            color: #9e9e9e;
+            margin-bottom: 30px;
+        }
+
+        .input-group {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 24px;
+            flex-wrap: wrap;
+        }
+
+        input[type="text"] {
+            flex: 1;
+            padding: 12px 16px;
+            border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 8px;
+            background: rgba(255,255,255,0.08);
+            color: #fff;
+            font-size: 1rem;
+            outline: none;
+            min-width: 180px;
+        }
+
+        input[type="text"]:focus {
+            border-color: #e94560;
+        }
+
+        button {
+            padding: 12px 28px;
+            background: #e94560;
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background 0.2s;
+            white-space: nowrap;
+        }
+
+        button:hover { background: #c73652; }
+        button:disabled { background: #666; cursor: not-allowed; }
+
+        .result-box {
+            background: rgba(0,0,0,0.3);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 10px;
+            padding: 20px;
+            min-height: 80px;
+            display: none;
+        }
+
+        .result-box.visible { display: block; }
+
+        .result-row {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 8px;
+            flex-wrap: wrap;
+        }
+
+        .label {
+            color: #e94560;
+            font-weight: bold;
+            min-width: 90px;
+        }
+
+        .value { color: #e0e0e0; word-break: break-word; }
+
+        .error-msg {
+            color: #ff6b6b;
+            background: rgba(255,0,0,0.1);
+            border: 1px solid rgba(255,0,0,0.3);
+            border-radius: 8px;
+            padding: 12px 16px;
+            display: none;
+        }
+
+        .error-msg.visible { display: block; }
+
+        .loading { color: #9e9e9e; font-style: italic; }
+
+        footer {
+            margin-top: 28px;
+            font-size: 0.8rem;
+            color: #666;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+<div class="card">
+    <h1>Conjetura de Collatz</h1>
+    <p class="subtitle">
+        Ingresa un número entero positivo y el servidor calculará la secuencia de Collatz.
+    </p>
+
+    <div class="input-group">
+        <input type="text" id="valueInput" placeholder="Ej: 13" />
+        <button id="getBtn" onclick="fetchSequence('GET')">Calcular (GET)</button>
+        <button id="postBtn" onclick="fetchSequence('POST')">Calcular (POST)</button>
+    </div>
+
+    <div class="error-msg" id="errorMsg"></div>
+
+    <div class="result-box" id="resultBox">
+        <div class="result-row">
+            <span class="label">Operación:</span>
+            <span class="value" id="resOperation"></span>
+        </div>
+        <div class="result-row">
+            <span class="label">Input:</span>
+            <span class="value" id="resInput"></span>
+        </div>
+        <div class="result-row">
+            <span class="label">Secuencia:</span>
+            <span class="value" id="resOutput"></span>
+        </div>
+    </div>
+
+    <footer>Parcial TDSE – ECI &bull; Cliente asíncrono + REST Spring Boot</footer>
+</div>
+
+<script>
+    function fetchSequence(method) {
+        var valueInput = document.getElementById('valueInput');
+        var errorMsg   = document.getElementById('errorMsg');
+        var resultBox  = document.getElementById('resultBox');
+        var value      = valueInput.value.trim();
+
+        // --- Client-side validation ---
+        errorMsg.classList.remove('visible');
+        resultBox.classList.remove('visible');
+
+        if (value === '') {
+            showError('Por favor ingresa un número entero positivo.');
+            return;
+        }
+
+        var parsed = parseInt(value, 10);
+        if (isNaN(parsed) || String(parsed) !== value) {
+            showError('El valor debe ser un número entero válido.');
+            return;
+        }
+
+        if (parsed <= 0) {
+            showError('El valor debe ser un entero positivo mayor que cero.');
+            return;
+        }
+
+        // --- Async request to REST service ---
+        var url = '/collatzsequence?value=' + encodeURIComponent(value);
+
+        document.getElementById('getBtn').disabled  = true;
+        document.getElementById('postBtn').disabled = true;
+
+        resultBox.innerHTML = '<span class="loading">Calculando…</span>';
+        resultBox.classList.add('visible');
+
+        var xhttp = new XMLHttpRequest();
+
+        xhttp.onload = function () {
+            document.getElementById('getBtn').disabled  = false;
+            document.getElementById('postBtn').disabled = false;
+
+            if (this.status >= 200 && this.status < 300) {
+                try {
+                    var data = JSON.parse(this.responseText);
+                    renderResult(data);
+                } catch (e) {
+                    resultBox.classList.remove('visible');
+                    showError('La respuesta del servidor no tiene formato JSON válido.');
+                }
+            } else {
+                resultBox.classList.remove('visible');
+                try {
+                    var err = JSON.parse(this.responseText);
+                    showError('Error del servidor: ' + (err.error || this.status));
+                } catch (e) {
+                    showError('Error HTTP ' + this.status + ': ' + this.statusText);
+                }
+            }
+        };
+
+        xhttp.onerror = function () {
+            document.getElementById('getBtn').disabled  = false;
+            document.getElementById('postBtn').disabled = false;
+            resultBox.classList.remove('visible');
+            showError('No se pudo conectar con el servidor. Verifica que esté en ejecución.');
+        };
+
+        xhttp.open(method, url);
+        xhttp.send();
+    }
+
+    function renderResult(data) {
+        var resultBox = document.getElementById('resultBox');
+        resultBox.innerHTML =
+            '<div class="result-row"><span class="label">Operación:</span><span class="value" id="resOperation"></span></div>' +
+            '<div class="result-row"><span class="label">Input:</span><span class="value" id="resInput"></span></div>' +
+            '<div class="result-row"><span class="label">Secuencia:</span><span class="value" id="resOutput"></span></div>';
+
+        document.getElementById('resOperation').textContent = data.operation || '';
+        document.getElementById('resInput').textContent     = data.input     !== undefined ? data.input : '';
+        document.getElementById('resOutput').textContent    = data.output    || '';
+        resultBox.classList.add('visible');
+    }
+
+    function showError(msg) {
+        var el = document.getElementById('errorMsg');
+        el.textContent = msg;
+        el.classList.add('visible');
+    }
+
+    // Allow pressing Enter to trigger GET
+    document.addEventListener('DOMContentLoaded', function () {
+        document.getElementById('valueInput').addEventListener('keydown', function (e) {
+            if (e.key === 'Enter') { fetchSequence('GET'); }
+        });
+    });
+</script>
+</body>
+</html>
