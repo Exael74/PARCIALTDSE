@@ -2,7 +2,7 @@
 
 Este repositorio presenta el parcial para el segundo corte de TDSE, habia tenido un problema con los usuarios de github y por eso los commits se estan realizando hasta este momento 
 
-video del funcionamiento: <video controls src="20260324-1736-26.9243981.mp4" title="Title"></video>
+video del funcionamiento: <video controls src="20260324-1736-26.9243981.mp4" title="Title"></video> es el video "20260324-1736-26.9243981.mp4" adjunto en el repositorio, aclaro esto en caso de que el readme no lo muestre
 
 Verificamos la correcta compilacion del proyecto 
 ![alt text](docs/image.png)
