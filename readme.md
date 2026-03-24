@@ -14,4 +14,13 @@ Corremos la instancia del contenedor
 ![alt text](docs/image4.png)
 ![alt text](docs/image-1.png)
 ![alt text](docs/image-2.png)
+![alt text](image.png)
+
+![alt text](image-1.png)
+
+
+Habilitamos docker en la instancia: 
+![alt text](image-2.png)
+![alt text](image-3.png)
+
 
