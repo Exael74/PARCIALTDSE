@@ -7,7 +7,7 @@ video del funcionamiento: <video controls src="20260324-1736-26.9243981.mp4" tit
 
 ## Estructura del proyecto 
 <img width="796" height="612" alt="image" src="https://github.com/user-attachments/assets/2b1db28b-049b-4f82-9241-2c5d4af618f9" />
-
+La carpeta target se genera al ejecutar el proyecto, por ello no esta en el repositorio
 
 
 ## Descripción del Proyecto
