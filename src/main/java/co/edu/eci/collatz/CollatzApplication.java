@@ -1,4 +1,4 @@
-package co.edu.eci.collatz.service;
+package co.edu.eci.collatz;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
