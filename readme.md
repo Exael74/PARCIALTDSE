@@ -4,3 +4,5 @@ Este repositorio presenta el parcial para el segundo corte de TDSE, habia tenido
 
 Link del video del funcionamiento: //Pending
 
+Verificamos la correcta compilacion del proyecto 
+![alt text](docs/image.png)
