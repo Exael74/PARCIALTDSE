@@ -2,7 +2,7 @@
 
 Este repositorio presenta el parcial para el segundo corte de TDSE, habia tenido un problema con los usuarios de github y por eso los commits se estan realizando hasta este momento 
 
-Link del video del funcionamiento: //Pending
+video del funcionamiento: <video controls src="20260324-1736-26.9243981.mp4" title="Title"></video>
 
 Verificamos la correcta compilacion del proyecto 
 ![alt text](docs/image.png)
@@ -26,4 +26,11 @@ Habilitamos docker en la instancia:
 Implementado con spring boot
 ![alt text](image-4.png)
 
+
+Finalmente usamos este link luego de realizar el despliegue de AWS
+http://ec2-44-202-109-82.compute-1.amazonaws.com:8081/collatzsequence?value=13
+
+donde obtenemos el siguiente resultado 
+
+![alt text](image-5.png)
 
