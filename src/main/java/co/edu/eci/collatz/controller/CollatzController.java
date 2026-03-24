@@ -18,7 +18,8 @@ public class CollatzController {
         this.collatzService = collatzService;
     }
 
-    @GetMapping("/collatzsquence")
+    // Corregido: se agregó la 'e' que faltaba en 'sequence'
+    @GetMapping("/collatzsequence")
     public ResponseEntity<?> collatzGet(@RequestParam(value = "value") String value) {
         return processRequest(value);
     }
@@ -49,6 +50,5 @@ public class CollatzController {
             return ResponseEntity.badRequest()
                     .body(Map.of("error", e.getMessage()));
         }
-
     }
 }
