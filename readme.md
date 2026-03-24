@@ -6,32 +6,8 @@ video del funcionamiento: <video controls src="20260324-1736-26.9243981.mp4" tit
 
 
 ## Estructura del proyecto 
-PARCIALTDSE/
-├── .gitignore                # Archivos y carpetas ignorados por Git
-├── docker-compose.yml        # Configuración para orquestación de contenedores Docker
-├── Dockerfile                # Configuración para construir la imagen Docker
-├── pom.xml                   # Archivo de configuración de Maven
-├── readme.md                 # Documentación del proyecto
-├── src/
-│   ├── main/
-│   │   ├── java/             # Código fuente principal
-│   │   │   └── co/
-│   │   │       └── edu/
-│   │   │           └── eci/
-│   │   │               └── collatz/
-│   │   │                   ├── CollatzApplication.java  # Clase principal
-│   │   │                   ├── controller/             # Controladores REST
-│   │   │                   ├── dto/                   # Clases DTO
-│   │   │                   └── service/               # Lógica de negocio
-│   │   └── resources/       # Recursos estáticos y configuración
-│   │       └── static/      # Archivos HTML, CSS y JS
-│   └── test/
-│       ├── java/            # Pruebas unitarias
-│       │   └── co/
-│       │       └── edu/
-│       │           └── eci/
-│       │               └── collatz/
-│       │                   └── CollatzServiceTest.java # Pruebas del servicio
+<img width="672" height="527" alt="image" src="https://github.com/user-attachments/assets/5a43648f-1923-4566-9bf3-8e29ccf12291" />
+
 
 ## Descripción del Proyecto
 Este proyecto implementa un servicio REST basado en Spring Boot que calcula la secuencia de Collatz para un número entero positivo dado. Incluye un cliente web asíncrono para interactuar con el servicio y está diseñado para ser desplegado en contenedores Docker,
